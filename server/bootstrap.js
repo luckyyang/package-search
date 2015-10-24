@@ -14,4 +14,3 @@ if(Packages.find().count() < packagesDump.length) {
   };
   console.log("completed!");
 }
-

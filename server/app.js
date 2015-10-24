@@ -1,26 +1,10 @@
 SearchSource.defineSource('packages', function(searchText, options) {
   // simply do the query and return the result
-  Meteor._sleepForMs(1000);
-  var words = searchText.trim().split(" ");
-  var lastWord = words[words.length -1];
   var query = {
-    "bool": {
-      "must": [
-        {
-          "bool": {
-            "should": [
-              {"match": {"packageName": {"query": searchText}}},
-              {"prefix": {"packageName": lastWord}},
-              {"match": {"description": {"query": searchText}}},
-              {"prefix": {"description": lastWord}}
-            ]
-          }
-        }
-      ],
-      "should": [
-        {"match_phrase_prefix": {"packageName": {"query": searchText, slop: 5}}},
-        {"match_phrase_prefix": {"description": {"query": searchText, slop: 5}}},
-      ]
+    "multi_match": {
+      "query": searchText,
+      "type": "most_fields",
+      "fields": ["packageName", "description"]
     }
   };
 
