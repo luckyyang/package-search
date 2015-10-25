@@ -19,6 +19,7 @@ SearchSource.defineSource('packages', function(searchText, options) {
   var data = result.hits.hits.map(function(doc) {
     var source = _.clone(doc._source);
     source._score = doc._score;
+    source._id = doc._id;
     return source;
   });
 
